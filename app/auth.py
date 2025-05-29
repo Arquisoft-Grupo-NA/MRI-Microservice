@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Request, HTTPException, Depends
 from fastapi.responses import RedirectResponse, HTMLResponse
-from fastapi.templating import Jinja2Templates
+from app.templates import templates
 import httpx
 import os
 from dotenv import load_dotenv
@@ -12,10 +12,6 @@ CLIENT_ID = os.getenv("AUTH0_CLIENT_ID")
 CLIENT_SECRET = os.getenv("AUTH0_CLIENT_SECRET")
 CALLBACK_URL = os.getenv("AUTH0_CALLBACK_URL")
 APP_URL = os.getenv("APP_URL")
-
-
-templates = Jinja2Templates(directory="templates")
-
 
 router = APIRouter()
 

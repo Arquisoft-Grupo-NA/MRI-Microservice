@@ -4,7 +4,7 @@ from starlette.status import HTTP_303_SEE_OTHER
 from app import crud, schemas
 from app.templates import templates
 from app.auth import get_current_user
-from datetime import date # Importar 'date' para el tipo de dato de los parámetros de consulta
+from datetime import date 
 
 router = APIRouter()
 ALLOWED_ROLES = ['missanoguga', 'sebastianmartinezarias','sebasmar2015']
@@ -18,8 +18,8 @@ def check_role(user):
 async def mri_list_html(
     request: Request,
     page: int = Query(1, ge=1),
-    fecha_inicio: date = Query(None), # Nuevo parámetro de consulta para fecha de inicio
-    fecha_fin: date = Query(None),    # Nuevo parámetro de consulta para fecha de fin
+    fecha_inicio: date = Query(None),
+    fecha_fin: date = Query(None),
     user=Depends(get_current_user),
 ):
     check_role(user)
@@ -29,20 +29,19 @@ async def mri_list_html(
         user["userinfo"]["sub"],
         skip=skip,
         limit=limit,
-        fecha_inicio=fecha_inicio, # Pasar el parámetro de fecha de inicio a crud
-        fecha_fin=fecha_fin        # Pasar el parámetro de fecha de fin a crud
+        fecha_inicio=fecha_inicio,
+        fecha_fin=fecha_fin
     )
     pagination = {"page": page, "total_pages": 10, "has_previous": page > 1, "has_next": True}
 
-    # Pasar los valores de fecha al template para precargar los campos del formulario
     return templates.TemplateResponse(
         "mri_list.html",
         {
             "request": request,
             "mris": mris,
             "pagination": pagination,
-            "fecha_inicio": fecha_inicio.isoformat() if fecha_inicio else "", # Convertir a string para el HTML
-            "fecha_fin": fecha_fin.isoformat() if fecha_fin else ""           # Convertir a string para el HTML
+            "fecha_inicio": fecha_inicio.isoformat() if fecha_inicio else "",
+            "fecha_fin": fecha_fin.isoformat() if fecha_fin else ""
         }
     )
 

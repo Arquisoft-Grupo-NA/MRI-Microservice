@@ -61,10 +61,13 @@ async def callback(request: Request, code: str = None):
     return RedirectResponse(url=APP_URL)
 
 
-@router.get("/logout", response_class=HTMLResponse)
+@router.get("/logout")
 async def logout(request: Request):
     request.session.clear()
-    return templates.TemplateResponse("logout.html", {"request": request})
+    return RedirectResponse(
+        url=f"https://{AUTH0_DOMAIN}/v2/logout?client_id={CLIENT_ID}&returnTo={APP_URL}"
+    )
+
 
 def get_current_user(request: Request):
     user = request.session.get("user")

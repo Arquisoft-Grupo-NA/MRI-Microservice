@@ -18,11 +18,13 @@ router = APIRouter()
 @router.get("/login")
 async def login():
     return RedirectResponse(
-        url=f"https://{AUTH0_DOMAIN}/authorize?"
+        url=(
+            f"https://{AUTH0_DOMAIN}/authorize?"
             f"response_type=code&"
             f"client_id={CLIENT_ID}&"
             f"redirect_uri={CALLBACK_URL}&"
             f"scope=openid profile email"
+        )
     )
 
 @router.get("/callback")
@@ -57,6 +59,7 @@ async def callback(request: Request, code: str = None):
     }
 
     return RedirectResponse(url=APP_URL)
+
 
 @router.get("/logout", response_class=HTMLResponse)
 async def logout(request: Request):

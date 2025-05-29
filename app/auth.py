@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Request, HTTPException, Depends
 from fastapi.responses import RedirectResponse, HTMLResponse
+from fastapi.templating import Jinja2Templates
 import httpx
 import os
 from dotenv import load_dotenv
@@ -11,6 +12,10 @@ CLIENT_ID = os.getenv("AUTH0_CLIENT_ID")
 CLIENT_SECRET = os.getenv("AUTH0_CLIENT_SECRET")
 CALLBACK_URL = os.getenv("AUTH0_CALLBACK_URL")
 APP_URL = os.getenv("APP_URL")
+
+
+templates = Jinja2Templates(directory="templates")
+
 
 router = APIRouter()
 
@@ -73,8 +78,8 @@ def get_current_user(request: Request):
         raise HTTPException(status_code=401, detail="No autenticado")
     return user
 
-@router.get("/me")
-async def read_me(user=Depends(get_current_user)):
+@router.get("/me", response_class=HTMLResponse)
+async def read_me(request: Request, user=Depends(get_current_user)):
     userinfo = user.get("userinfo", {})
     nickname = userinfo.get("nickname", "Sin nickname")
-    return {"nickname": nickname, "userinfo": userinfo}
+    return templates.TemplateResponse("me.html", {"request": request, "nickname": nickname, "userinfo": userinfo})

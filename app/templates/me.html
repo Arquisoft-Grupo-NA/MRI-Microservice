@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>Perfil de Usuario</title>
+</head>
+<body>
+    <h1>Hola, {{ nickname }}!</h1>
+    <h2>Información del usuario:</h2>
+    <pre>{{ userinfo | tojson(indent=2) }}</pre>
+</body>
+</html>

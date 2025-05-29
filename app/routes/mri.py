@@ -7,7 +7,7 @@ from app.auth import get_current_user
 from datetime import date 
 
 router = APIRouter()
-ALLOWED_ROLES = ['missanoguga', 'sebastianmartinezarias','sebasmar2015']
+ALLOWED_ROLES = ['missanoguga', 'sebastianmartinezarias','sebasmar2015', 'm.canteg111']
 
 def check_role(user):
     role = user["userinfo"].get("nickname")

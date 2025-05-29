@@ -16,10 +16,11 @@ async def get_mris_by_user(
     usuario_id: str,
     skip: int = 0,
     limit: int = 10,
-    fecha_inicio: date = None,  # Nuevo parámetro
-    fecha_fin: date = None,      # Nuevo parámetro
+    fecha_inicio: date = None,
+    fecha_fin: date = None,
 ):
     query = {"usuario_id": usuario_id}
+
     if fecha_inicio and fecha_fin:
         query["fecha"] = {"$gte": fecha_inicio.isoformat(), "$lte": fecha_fin.isoformat()}
     elif fecha_inicio:
